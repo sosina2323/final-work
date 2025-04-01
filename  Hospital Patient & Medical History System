@@ -1,1 +1,52 @@
 //sosina
+#include <iostream>
+#include <string>
+#include <queue>
+#include <limits>  // For input validation
+
+using namespace std;
+
+// Structure to represent a medical history record
+struct MedicalHistory {
+    string visit;
+    string diagnosis;
+    string prescription;
+    MedicalHistory* next; // Link to next medical record in the list
+};
+
+// Structure to represent a patient
+struct Patient {
+    string name;
+    int age;
+    string medicalID;
+    MedicalHistory* historyHead; // Linked list head for past medical history
+    Patient* next; // Link to next patient in the list
+};
+
+class HospitalSystem {
+private:
+    queue<Patient*> patientQueue; // Queue to manage patients
+    Patient* patientListHead; // Linked list to store patients
+
+public:
+    HospitalSystem() {
+        patientListHead = NULL;
+    }
+
+    // Helper function to safely get an integer input (age)
+    int getValidIntegerInput(string prompt) {
+        int value;
+        while (true) {
+            cout << prompt;
+            cin >> value;
+            if (cin.fail()) {
+                cin.clear();  // clear the error flag
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard invalid input
+                cout << "Invalid input! Please enter a valid number.\n";
+            } else if (value <= 0) {
+                cout << "Age must be greater than 0. Please enter a valid age.\n";
+            } else {
+                return value;
+            }
+        }
+    }
